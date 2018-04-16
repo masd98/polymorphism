@@ -1,4 +1,4 @@
-<section id="themes">
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<section id="themes">
 	<h2>Themes</h2>
 		<p>
 			Set your presentation theme: <br>
@@ -19,524 +19,455 @@
 
 H:
 
-# Polymorphism
+# Data
 
-by some [National University of Colombia collaborators](https://github.com/orgs/objetos/people)
 
 H:
 
 # Index
 
- 1. Introduction <!-- .element: class="fragment" data-fragment-index="1"-->
- 1. Inheritance <!-- .element: class="fragment" data-fragment-index="2"-->
- 1. Polymorphism <!-- .element: class="fragment" data-fragment-index="3"-->
+ 1. Introducción <!-- .element: class="fragment" data-fragment-index="1"-->
+ 1. CSV <!-- .element: class="fragment" data-fragment-index="2"-->
+ 1. XML <!-- .element: class="fragment" data-fragment-index="3"-->
+ 1. JSON <!-- .element: class="fragment" data-fragment-index="4"-->
  
 H:
 
-## Introduction
+## Introduccion
 
-We already know:
+En ocasiones es necesario tener información aparte del código
 
-<li class="fragment"> An object is a _data structure_ for storing user-defined _attributes_ (which may be other objects even of the same type), and _methods_ to manipulate them
-<li class="fragment"> To use an object: Declare & initialize it and then call functions on it
-
+<li class="fragment"> Organizar
+<li class="fragment"> Recopilar 
+<li class="fragment"> Cambiar 
 V:
 
-## Introduction
+## Introduccion
 
-We may ask now for ways to relate objects different than [composition](https://en.wikipedia.org/wiki/Object_composition)
+Processing nos brinda la oportunidad de trabajar en distintos formatos para lograr esto
 
-> That's where Inheritance & Polymorphism comes into the picture
+Cada uno con sus distintas fortalezas para que cada programador escoja a su gusto
 
 H:
 
-## Inheritance
-What is?
-
-> Is when an object or class B is based on another object or class A
-
-V:
-
-## Inheritance
-We say:
-
-<li class="fragment"> B is _sublass_ of A
-<li class="fragment"> A is _superclass_ of B
-<li class="fragment"> A and B form a _class hierarchy_
+## CSV 
+ comma-separated values
+> Los archivos CSV son un tipo de documento en formato abierto sencillo para representar datos en forma de tabla
 
 V:
 
-## Inheritance
+## ejemplo tabla
 
 <figure>
-    <img height='400' src='fig/single_inheritance.jpg' />
-    <figcaption>Single inheritance</figcaption>
+    <img height='400' src='fig/CSV.jpg' />
+    <figcaption>Columnas " , " y Filas salto de linea</figcaption>
 </figure>
 
-V:
-
-## Inheritance
-
-<figure>
-    <img height='400' src='fig/multiple_inheritance.jpg' />
-    <figcaption>Multiple inheritance</figcaption>
-</figure>
 
 V:
 
-## Inheritance
+## CSv
+Ventajas
 
-<figure>
-    <img height='400' src='fig/multilevel_inheritance.jpg' />
-    <figcaption>Multilevel inheritance</figcaption>
-</figure>
-
-V:
-
-## Inheritance
-Advantages
-
-<li class="fragment"> It is a mechanism for code reuse
-<li class="fragment"> It allows (independent) extensions of the original software via public classes and interfaces
+<li class="fragment"> Una sencillez muy practica a la hora de trabajar
+<li class="fragment"> Como es una clase propia de Processing cuenta con facilidades para el manejo de informacion
 
 V:
 
-## Inheritance
-Example:
+## csv
+Ejemplo:
 
-> Consider the problem of visually representing some integer sequences as a tile of squares with different hue values
-
-V:
-
-## Inheritance
-Example
-
-We are going to declare a _superclass_ *Sequence*
-and two _subclasses_ *Fibonacci* and *Padovan*
+> La ubicación de los puntos en el juego de Euler
 
 V:
 
-## Inheritance
-Example
+## csv
+Ejemplo:
+Primero declararemos las tablas que necesitaremos junto con los objetos
+
+V:
+
+## csv
+Ejemplo:
 
 ```processing
-// Superclass Sequence
-class Sequence {
-  color hue;
-  int yPos;
-  
-  Sequence() {
-    setHue(120);
-    setHeight(height/2);
-  }
-  
-  void setHeight(int h) {
-    yPos = h;
-  }
-  
-  int height() {
-    return yPos;
-  }
-  
-  void setHue(color h) {
-    hue = h;
-  }
-  
-  color hue() {
-    return hue;
-  }
-}
-```
+Circle[] circles;
+Rectangle[] rectangles;
 
-V:
-
-## Inheritance
-Example
-
-```processing
-// Subclass Fibonacci
-class Fibonacci extends Sequence {
-  int compute(int n) {
-    if (n == 1)
-      return 0;
-    if (n == 2)
-      return 1;
-    if ( n > 2)
-      return compute(n-2) + compute(n-1);
-    return -1;
-  }
-  
-  void display(int terms) {
-    int square_width = width / terms;
-    for (int i = 0; i < terms; i++) {
-      fill(hue, 100, map(compute(i+1), 0, compute(terms), 0, 100));
-      rect(i*square_width, height(), square_width, 50);
-    }
-  }
-}
-```
-
-V:
-
-## Inheritance
-Example
-
-```processing
-// Subclass Padovan
-class Padovan extends Sequence {
-  int compute(int n) {
-    if (n == 1 || n == 2 || n == 3)
-      return 1;
-    if ( n > 3)
-      return compute(n-2) + compute(n-3);
-    return -1;
-  }
-  
-  void display(int terms) {
-    int square_width = width / terms;
-    for (int i = 0; i < terms; i++) {
-      fill(hue, 100, map(compute(i+1), 0, compute(terms), 0, 100));
-      rect(i*square_width, height(), square_width, 50);
-    }
-  }
-}
-```
-
-V:
-
-## Inheritance
-Example
-
-```processing
-// Object declaration
-Fibonacci fSeq;
-Padovan pSeq;
-int term = 12;
+Table puntos;
+Table lineas;
+Table contador;
 
 void setup() {
-  size(720,640);
-  colorMode(HSB, 360, 100, 100);
-  // Object instantiation
-  fSeq = new Fibonacci();
-  pSeq = new Padovan();
+  size(500, 500);
+  puntos=loadTable ("puntos.csv");
+  contador=loadTable ("puntos.csv");
+  lineas=loadTable ("lineas.csv");
+
+  circles = new Circle[6];
+  for (int i = 0; i < circles.length; i++)
+    circles[i] = new Circle();
+  rectangles = new Rectangle[6];
+  for (int i = 0; i < rectangles.length; i++)
+    rectangles[i] = new Rectangle();
 }
 
 void draw() {
-  background(0);
-  // Object use:
-  fSeq.setHeight(mouseY);
-  fSeq.display(5);
-}
+  background(229, 218, 218);
+  
+  for (int i = 0; i <6; i++) {
+    rectangles[i].display();
+    circles[i].display();
+  }
 
-void keyPressed() {
-  // Object use:
-  println(term + " term Fibonacci value is: " + fSeq.compute(term));
-  println(term + " term Padovan value is: " + pSeq.compute(term));
-}
-```
-
-H:
-
-## Polymorphism
-What is?
-
-> is the provision of a single interface to entities of different types
-[Bjarne Stroustrup (February 19, 2007). "Bjarne Stroustrup's C++](http://www.stroustrup.com/glossary.html#Gpolymorphism)
+ 
+ }```
 
 V:
 
-## Polymorphism
-Types
-
-1. Ad hoc polymorphism <!-- .element: class="fragment" data-fragment-index="1"-->
-1. Parametric polymorphism <!-- .element: class="fragment" data-fragment-index="2"-->
-1. Subtyping <!-- .element: class="fragment" data-fragment-index="3"-->
-
-H:
-
-## Ad hoc polymorphism
-
-> when a function denotes different implementations depending on a limited range of individually specified types
-
-Supported in many languages via function overloading <!-- .element: class="fragment" data-fragment-index="1"-->
-
-V:
-
-## Function overloading
-Continuing our previous example:
+## csv
+Ejemplo:
 
 ```processing
-// Subclass Padovan
-class Padovan extends Sequence {
-  int compute(int n) {
-    if (n == 1 || n == 2 || n == 3)
-      return 1;
-    if ( n > 3)
-      return compute(n-2) + compute(n-3);
-    return -1;
-  }
-  
-  void display(int terms) {
-    int square_width = width / terms;
-    for (int i = 0; i < terms; i++) {
-      fill(hue, 100, map(compute(i+1), 0, compute(terms), 0, 100));
-      rect(i*square_width, height(), square_width, 50);
+int i, j;
+int aux;
+class Node {
+
+  PVector position;
+  float size;
+  int state;
+
+
+  Node() {
+    while (state==0) {
+      if (puntos.getInt(j, i)==1) {
+        setPosition(new PVector(i*50+50, j*50+50));
+        state=1;
+        contador.setInt(j, i, aux+1);
+        aux=contador.getInt(j, i);
+      }
+      if (i>=8&&j>=8) {
+        i=8;
+        j=8;
+        state=1;
+      } else if (j<8) {
+        j++;
+      } else {
+        i++;
+        j=0;
+      }
+    }
+    println(i, j);
+    setSize(25);
+    if (i==8&&j==8) {
+      i=8;
+      j=8;
+    } else if (j<8) {
+      j++;
+    } else {
+      i++;
+      j=0;
     }
   }
-  
-  // Method overloading
+
+
+  void setPosition(PVector pos) {
+    position = pos;
+  }
+
+  void setSize(float s) {
+    size = s;
+  }
+
+
+  PVector position() {
+    return position;
+  }
+
+  float size() {
+    return size;
+  }
+}```
+
+V:
+
+## csv
+Ejemplo:
+
+```processing
+class Circle extends Node {
   void display() {
-    display(5);
+    pushStyle();
+    strokeWeight(5);
+    stroke(2, 4, 15);
+    fill(132, 0, 15);
+    ellipse(position.x, position.y, size, size);
+    popStyle();
   }
-}
-```
+ }```
 
 V:
 
-## Function overloading
-Continuing our previous example:
+## csv
+Ejemplo:
 
 ```processing
-// Object declaration
-Fibonacci fSeq;
-Padovan pSeq;
-int term = 12;
+class Rectangle extends Node {
+  void display() {
+    pushStyle();
+    rectMode(CENTER);
+    strokeWeight(5);
+    stroke(2, 4, 15);
+    fill(229, 149, 0);
+    rect(position.x, position.y, size, size);
+    popStyle();
+  }
+}```
+
+H:
+
+## Xml
+eXtensible Markup Language
+
+> XML es un subconjunto de SGML, simplificado y adaptado a Internet
+
+V:
+
+## XML
+Ejemplo:
+<figure>
+    <img height='400' src='fig/xml.jpg' />
+   
+</figure>
+
+V:
+
+## XML
+Ejemplo:
+<figure>
+    <img height='400' src='fig/arbol.jpg' />
+   <figcaption>Estructura arbol</figcaption>
+</figure>
+
+V:
+
+## xml
+Retomando nuestro ejemplo:
+
+```processing
+Circle[] circles;
+Rectangle[] rectangles;
+
+XML xml;
+int recol[];
+int puntos[][]=new int[9][9];
+String punto;
+int aux1;
 
 void setup() {
-  size(720,640);
-  colorMode(HSB, 360, 100, 100);
-  // Object instantiation
-  fSeq = new Fibonacci();
-  pSeq = new Padovan();
-}
+  size(500, 500);
 
-void draw() {
-  background(0);
-  // Object use:
-  pSeq.setHeight(mouseY);
-  // Call to the overloaded method
-  pSeq.display();
-}
+  xml = loadXML("puntos.xml");
+  XML[] children = xml.getChildren("puntos");
 
-void keyPressed() {
-  // Object use:
-  println(term + " term Fibonacci value is: " + fSeq.compute(term));
-  println(term + " term Padovan value is: " + pSeq.compute(term));
-}
-```
-
-H:
-
-## Parametric polymorphism
-
-> when code is written without mention of any specific type and thus can
-be used transparently with any number of new types
-
-V:
-
-## Parametric polymorphism
-
-Also known as:
-
-* [Generic programming](https://en.wikipedia.org/wiki/Generic_programming) in the OOP community
-* _Polymorphism_ in the functional programming community
-
-H:
-
-## Subtyping
-
-> when a name denotes instances of many different classes related by some common superclass
-
-V:
-
-## Subtyping
-
-Also known as:
-
-* _Polymorphism_ in the OOP community
-
-V:
-
-## Subtyping
-
-Suppose B is a subtype of A (often written as $B <: A$)
-
-We not only say:
-
-<li class="fragment"> B is _sublass_ of A
-<li class="fragment"> A is _superclass_ of B
-<li class="fragment"> A and B form a _class hierarchy_
-
-
-V:
-
-## Subtyping
-
-but also:
-
-any term of type B can be _safely used_ in a context where a term of type A is expected
-
-V:
-
-## Subtyping
-
-Advantages:
-
-<li class="fragment"> It encourages _data abstraction_
-<li class="fragment"> It allows _code simplicity_
-
-V:
-
-## Subtyping
-
-Continuing our previous example:
-
-```processing
-// Superclass Sequence
-abstract class Sequence { 
-  abstract int compute(int n);
-  
-  color hue;
-  int yPos;
-  
-  Sequence() {
-    setHue(120);
-    setHeight(height/2);
+  for (int i = 0; i < children.length; i++) {
+    String name = children[i].getContent();
+    punto=name;
   }
-  
-  void setHeight(int h) {
-    yPos = h;
-  }
-  
-  int height() {
-    return yPos;
-  }
-  
-  void setHue(color h) {
-    hue = h;
-  }
-  
-  color hue() {
-    return hue;
-  }
-  
-  // this function is common among different
-  // Sequence subtypes, so we moved it here
-  void display(int terms) {
-    int square_width = width / terms;
-    for (int i = 0; i < terms; i++) {
-      fill(hue, 100, map(compute(i+1), 0, compute(terms), 0, 100));
-      rect(i*square_width, height(), square_width, 50);
+
+  recol = int(split(punto, ','));
+
+  for (int i=0; i<9; i++) {
+    for (int j=0; j<9; j++) {
+      puntos[j][i]=recol[aux1];
+      println (j, i, puntos[j][i],recol[aux1],aux1);
+      aux1=aux1+1;
+     
     }
   }
-  
-  // Method overloading
-  void display() {
-    display(5);
-  }
+  circles = new Circle[6];
+  for (int i = 0; i < circles.length; i++)
+    circles[i] = new Circle();
+  rectangles = new Rectangle[6];
+  for (int i = 0; i < rectangles.length; i++)
+    rectangles[i] = new Rectangle();
 }
-```
 
-V:
 
-## Subtyping
-Continuing our previous example:
-
-```processing
-// Subclass Fibonacci
-class Fibonacci extends Sequence {
-  Fibonacci() {
-    setHue(0);
-  }
-  
-  @Override
-  int compute(int n) {
-    if (n == 1)
-      return 0;
-    if (n == 2)
-      return 1;
-    if ( n > 2)
-      return compute(n-2) + compute(n-1);
-    return -1;
-  }  
-}
-```
-
-V:
-
-## Subtyping
-Continuing our previous example:
-
-```processing
-// Subclass Padovan
-class Padovan extends Sequence {
-  Padovan() {
-    setHue(180);
-  }
-  
-  @Override
-  int compute(int n) {
-    if (n == 1 || n == 2 || n == 3)
-      return 1;
-    if ( n > 3)
-      return compute(n-2) + compute(n-3);
-    return -1;
-  }
-}
-```
-
-V:
-
-## Subtyping
-Continuing our previous example:
-
-```processing
-// Object declaration
-Sequence sequence;
-boolean padovan; // false by default, so we begin with Fibonacci
-
-void setup() {
-  size(720,640);
-  colorMode(HSB, 360, 100, 100);
-  // We cannot initialize an 'abstract object'
-  // only 'concrete' ones:
-  sequence = new Fibonacci();
-}
 
 void draw() {
-  background(0);
-  // Object use:
-  sequence.setHeight(mouseY);
-  sequence.display();
-}
+  background(229, 218, 218);
 
-void keyPressed() {
-  padovan = !padovan;
-  // both Fibonacci and Padovan object instances
-  // may be assigned to the superclass sequence object:
-  sequence = padovan ? new Padovan() : new Fibonacci();
+  for (int i = 0; i <6; i++) {
+    rectangles[i].display();
+    circles[i].display();
+  }
+}
+```
+
+V:
+
+## xml
+
+``` processing
+int i, j;
+int aux;
+class Node {
+
+  PVector position;
+  float size;
+  int state;
+
+
+  Node() {
+    while (state==0) {
+      if (puntos[i][j]==1) {
+        setPosition(new PVector(i*50+50, j*50+50));
+        state=1;
+        
+      }
+      if (i>=8&&j>=8) {
+        i=8;
+        j=8;
+        state=1;
+      } else if (j<8) {
+        j++;
+      } else {
+        i++;
+        j=0;
+      }
+    }
+    println(i, j);
+    setSize(25);
+    if (i==8&&j==8) {
+      i=8;
+      j=8;
+    } else if (j<8) {
+      j++;
+    } else {
+      i++;
+      j=0;
+    }
+  }
+
+
+  void setPosition(PVector pos) {
+    position = pos;
+  }
+
+  void setSize(float s) {
+    size = s;
+  }
+
+
+  PVector position() {
+    return position;
+  }
+
+  float size() {
+    return size;
+  }
 }
 ```
 
 H:
 
-## References
-
-* [Inheritance](https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)
-* [Bjarne Stroustrup (February 19, 2007). "Bjarne Stroustrup's C++](http://www.stroustrup.com/glossary.html#Gpolymorphism)
-* [Polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
-* [Subtyping](https://en.wikipedia.org/wiki/Subtyping)
+## json
+JavaScript Object Notation
+> Es un formato de texto ligero para el intercambio de datos. JSON es un subconjunto de la notación literal de objetos de JavaScript aunque hoy, debido a su amplia adopción como alternativa a XML, se considera un formato de lenguaje independiente.
 
 V:
 
-## Further reading:
+## json
 
-* [Is-a relationship](https://en.wikipedia.org/wiki/Is-a)
-* [Java Interfaces](https://en.wikipedia.org/wiki/Interface_(Java)
+
+<figure>
+    <img height='400' src='fig/json.jpg' />
+
+</figure>
+
+V:
+
+## json
+
+
+<figure>
+    <img height='400' src='fig/json2.jpg' />
+
+</figure>
+V:
+
+## json
+
+Continuando con el ejemplo:
+
+```processing
+Circle[] circles;
+Rectangle[] rectangles;
+
+XML xml;
+int recol[];
+int puntos[][]=new int[9][9];
+String punto;
+int aux1;
+JSONArray json;
+
+void setup() {
+  size(500, 500);
+  json = loadJSONArray("new.json");
+  int values = json.getInt(0);
+   println(values);
+  for (int i=0; i<9; i++) {
+    for (int j=0; j<9; j++) {
+      puntos[j][i]=json.getInt(aux1);
+      println (j, i, puntos[j][i],aux1);
+      aux1=aux1+1;
+     
+    }
+  }
+  circles = new Circle[6];
+  for (int i = 0; i < circles.length; i++)
+    circles[i] = new Circle();
+  rectangles = new Rectangle[6];
+  for (int i = 0; i < rectangles.length; i++)
+    rectangles[i] = new Rectangle();
+}
+
+
+
+void draw() {
+  background(229, 218, 218);
+
+  for (int i = 0; i <6; i++) {
+    rectangles[i].display();
+    circles[i].display();
+  }
+}
+```
 
 H:
 
-## Workshop
+## Idea
 
-> Implement a hierarchical design for your [tangram](https://en.wikipedia.org/wiki/Tangram),
-taking into account different visual representations along it
+> Una sola plantilla para todo el proyecto
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
