@@ -245,7 +245,7 @@ V:
 ## XML
 Ejemplo:
 <figure>
-    <img height='400' src='fig/arbol.jpg' />
+    <img height='400' src='fig/arbol.JPG' />
    <figcaption>Estructura arbol</figcaption>
 </figure>
 
