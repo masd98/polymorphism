@@ -382,7 +382,7 @@ V:
 
 
 <figure>
-    <img height='400' src='fig/json.jpg' />
+    <img height='400' src='fig/json.JPG' />
 
 </figure>
 
@@ -392,7 +392,7 @@ V:
 
 
 <figure>
-    <img height='400' src='fig/json2.jpg' />
+    <img height='400' src='fig/json2.JPG' />
 
 </figure>
 V:
