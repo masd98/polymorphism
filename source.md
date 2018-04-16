@@ -236,7 +236,7 @@ V:
 ## XML
 Ejemplo:
 <figure>
-    <img height='400' src='fig/xml.jpg' />
+    <img height='400' src='fig/xml.JPG' />
    
 </figure>
 
